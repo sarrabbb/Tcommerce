@@ -1,0 +1,90 @@
+{% load cart_template_tags %}
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>navbar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="https://use.fontawesome.com/relme/4.3.0/css/font-awesome.cseases/v5.12.0/css/all.css">
+    
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesos"  rel="stylesheet"  type='text/css'>
+    <link rel="stylesheet" href="{% static '/assets/css/styles.min.css' %}">
+    <link rel="stylesheet" href="{% static '/assets/bootstrap/css/bootstrap.min.css' %}">
+
+</head>
+
+<body>
+
+    <div>
+        <nav class="navbar navbar-light navbar-expand-md sticky-top navigation-clean-button" style="height:80px;background-color:#37434d;color:#ffffff;">
+            <div class="container-fluid"><a class="navbar-brand" style="color:#ffffff;" href="/"><i class="fa fa-globe"></i>&nbsp;T-commerce</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                <div
+                    class="collapse navbar-collapse" id="navcol-1">
+                    <ul class="nav navbar-nav ml-auto">
+                        
+                        <li class="nav-item" role="presentation"><a class="nav-link active" style="color:#ffffff;" href="/"><i class="fa fa-home"></i>&nbsp;Home</a></li>
+                        {% comment %} <li class="nav-item" role="presentation"><a class="nav-link active" style="color:#ffffff;" href="#"><i class="fa fa-star-o"></i>&nbsp;Features</a></li> {% endcomment %}
+                        {% if user.is_authenticated%}
+                        
+                        {% if user.is_provider%}
+                        <li class="nav-item" role="presentation"><a class="nav-link active" style="color:#ffffff;" href="/user/provider/"><i class="fa fa-cogs"></i>&nbsp;Dashboard<br></a></li>
+                        {%endif%}
+                        {% if user.is_superuser%}
+                        <li class="nav-item" role="presentation"><a class="nav-link active" style="color:#ffffff;" href="/user/admin/"><i class="fa fa-cogs"></i>&nbsp;Dashboard<br></a></li>
+                        {%endif%}
+
+                        <li class="nav-item" role="presentation"><a class="nav-link active" style="color:#ffffff;" href="{% url 'profile' user.id %}"><i class="fa fa-user-circle-o"></i>&nbsp;Profile {{user.username}}</a></li>
+                        <a href="/cart/cartdetail/"class="nav-link active" style="color:#ffffff;">
+                            <span class="badge badge-pill badge-danger"> {{ request.user|cart_item_count }} </span>
+                            <i class="fa fa-shopping-cart"></i>
+                            <span class="clearfix d-none d-sm-inline-block"> Cart </span>
+                          </a>
+                        <li class="nav-item" role="presentation"><a class="nav-link active" style="color:#ffffff;" href="/user/logout"><i class="fa fa-sign-out"></i>&nbsp;Logout</a></li>
+                      
+
+                        {%else %}
+                        <li class="nav-item" role="presentation"><a class="nav-link active" style="color:#ffffff;" href="/user/signupchoice"><i class="fa fa-user-circle-o"></i>&nbsp;Register</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link active" style="color:#ffffff;" href="/user/signin"><i class="fa fa-sign-out"></i>&nbsp;Login</a></li>
+                        {%endif%}
+                    </ul>
+            </div>
+            <div class="mt-5 pt-4">
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+    </div>
+    </div>
+    </nav>
+    </div>
+
+ 
+    <!-- End: Dark NavBar -->
+
+    {%block list%}
+    {% endblock %}
+    {% comment %} {% include "footer.html" %} {% endcomment %}
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src = "{% static '/assets/js/script.min.js' %}"></script>   
+</body>
+
+</html>

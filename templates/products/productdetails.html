@@ -1,0 +1,146 @@
+{% extends "navbar.html" %}
+{% load static %}
+
+<head>
+    <title>Product Detaile</title>
+  </head>
+
+<body>
+    {%block list%}
+    <main class="page product-page">
+        <section class="clean-block clean-product dark">
+            <div class="container">
+                <div class="block-heading">
+                    <h2 class="text-info">Product Page</h2>
+                </div>
+                <div class="block-content">
+                    <div class="product-info">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="gallery">
+                                    <div class="sp-wrap">
+                                        <a href="{{product.image.url}}">
+                                            <img class="img-fluid d-block mx-auto" src="{{product.image.url}}">
+                                        </a>
+                                        <a href="{{product.image.url}}">
+                                            <img class="img-fluid d-block mx-auto" src="{{product.image.url}}">
+                                        </a>
+                                        <a href="{{product.image.url}}">
+                                            <img class="img-fluid d-block mx-auto" src="{{product.image.url}}">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info">
+                                    <h3>{{product.name}}</h3>
+                                    <span class="badge badge-pill badge-secondary">{{ product.category }}</span>
+                                    <div class="price">
+                                        <h3>
+                                            {% if product.discount_price %}
+                                            <span class="mr-1">
+                                              <del>{{ product.price }} DT</del>
+                                            </span>
+                                            <span>{{ product.discount_price }} DT</span>
+                                            {% else %}
+                                            <span>{{ product.price }} DT</span>
+                                            {% endif %}
+
+                                        </h3>
+                                    </div>
+                                    <a class="btn btn-primary" type="button" href="{% url 'addCart' product.id %}"><i class="icon-basket"></i>Add to Cart</a>
+                                    <div class="summary">
+                                        <p>
+                                            {{ product.description |truncatewords:15}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+      
+                        <div class="product-info">
+                        <div>
+                            <ul class="nav nav-tabs" id="myTab">
+                                <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" id="reviews-tab" href="#reviews">Reviews</a></li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                               
+                                   
+                                    <div class="reviews">
+                                        <div class="review-item">
+
+                                            <!-- show only the comments non signlaer -->
+                                            {% for comment in comments %}
+                                                {%if comment.flag == False  %} 
+
+                                                    <div class="comments" style="padding: 10px;">
+                                                        <p class="font-weight-bold">
+                                                            {{ comment.user.username }}
+                                                            <span class=" text-muted font-weight-normal">
+                                                            {{ comment.created_on }}
+                                                            </span>
+                                                        </p>
+                                                        {{ comment.content | linebreaks }}
+                                                    </div>
+                                                {%endif%}
+                                            {% endfor %}
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                    </div>
+
+                    <div class="clean-related-items"></div>
+                    <!-- Start: Comment Card -->
+                    <div class="card text-white bg-primary mb-1">
+                        <div class="card-header">
+                            {% if user.is_authenticated%}
+                            {{user.username}}
+                            {%else%}
+                            you are a visteur
+                            {%endif%}
+                            
+                        </div>
+                        {% if user.is_authenticated%}
+                        <div class="card-body">
+                            {% if new_comment %}
+                            <div class="alert alert-success" role="alert">
+                              Your comment has bean added with success
+                            </div>
+                            {% else %}
+                            <h3>Leave a comment</h3>
+                            <form method="post" style="margin-top: 1.3em;">
+                                <div class="card-body">
+                                    <div class=" card-text form-group">
+                                        {{ comment_form }}
+                                    </div>
+                                  
+                                </div>
+                              
+                              {% csrf_token %}
+                              <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
+                            </form>
+                            {% endif %}
+                        </form>
+                        </div>
+                        {%else%}
+                        <br>
+                        <div>
+                            <p class="bg-light text-dark"> Please <a class="text-success" href="/user/signin">login</a>  in order to leave a comment</p>
+                        </div>
+                        {%endif%}
+
+                    </div>
+
+                    <!-- End: Comment Card -->
+
+
+            </div>
+        </section>
+    </main>
+    <script src="{% static 'assets/js/script.min.js' %}"></script>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+
+{%endblock%}

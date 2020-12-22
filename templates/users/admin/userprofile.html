@@ -1,0 +1,194 @@
+{% extends "navbar.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+    <div class="content-section">
+      <div class="media">
+        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+        <div class="media-body">
+          <h2 class="account-heading">{{ user.username }}</h2>
+          <p class="text-secondary">{{ user.email }}</p>
+        </div>
+      </div>
+      
+        <form method="POST" enctype = "multipart/form-data">
+          {% csrf_token %}
+          <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Profile Info</legend>
+            {{ u_form|crispy }}
+            {{ p_form|crispy }}
+        </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Update</button>
+            </div>
+        </form>
+    </div>
+
+    <body id="page-top">
+      {%block list%}
+      <div id="wrapper">
+          <div class="container bootstrap snippet">
+    <div class="panel-body inf-content">
+        <div class="row">
+            <div class="col-md-4">
+                <img alt="" style="width:600px;" title="" class="img-circle img-thumbnail isTooltip" src="{{ user.profile.image.url }}"data-original-title="Usuario"> 
+                <ul title="Ratings" class="list-inline ratings text-center">
+                    <li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <strong>Information</strong><br>
+                <div class="table-responsive">
+                <table class="table table-user-information">
+                    <tbody>
+                
+                        <tr>    
+                            <td>
+                                <strong>
+                                    <span class="glyphicon glyphicon-user  text-primary"></span>    
+                                    Name                                                
+                                </strong>
+                            </td>
+                            <td class="text-primary">
+                                {{user.first_name}}     
+                            </td>
+                        </tr>
+                        
+                        <tr>        
+                            <td>
+                                <strong>
+                                    <span class="glyphicon glyphicon-bookmark text-primary"></span> 
+                                    Username                                                
+                                </strong>
+                            </td>
+                            <td class="text-primary">
+                                {{user.username}}  
+                            </td>
+                        </tr>
+
+
+                        <tr>        
+                            <td>
+                                <strong>
+                                    <span class="glyphicon glyphicon-eye-open text-primary"></span> 
+                                    Role                                                
+                                </strong>
+                            </td>
+                            <td class="text-primary">
+                                user
+                            </td>
+                        </tr>
+                        <tr>        
+                            <td>
+                                <strong>
+                                    <span class="glyphicon glyphicon-envelope text-primary"></span> 
+                                    Email                                                
+                                </strong>
+                            </td>
+                            <td class="text-primary">
+                                {{user.email}}
+                            </td>
+                        </tr>
+                        <tr>        
+                            <td>
+                                <strong>
+                                    <span class="glyphicon glyphicon-calendar text-primary"></span>
+                                    Member since                                                
+                                </strong>
+                            </td>
+                            <td class="text-primary">
+                                {{user.date_joined}}
+                            </td>
+                        </tr>
+                        <tr>        
+                            <td>
+                                <strong>
+                                    <span class="glyphicon glyphicon-calendar text-primary"></span>
+                                    Founded since                                                
+                                </strong>
+                            </td>
+                            <td class="text-primary">
+                                {{user.profile.birth_date}}
+                            </td>
+                        </tr>                                    
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>      
+
+
+
+
+             <div class="align-self-stretch" id="content-wrapper">
+              <div id="content">
+                  <div class="container-fluid">
+                      <div class="row mb-3">
+                          <div class="col-lg-4">
+                             
+                          </div>
+                         
+                              <div class="row">
+                                  <div class="col">
+                                      <div class="card shadow mb-3">
+                                          <div class="card-header py-3">
+                                              <p class="text-primary m-0 font-weight-bold">Order History</p>
+                                          </div>
+                                          <div class="card-body">
+                                          <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                   <table class="table dataTable my-0" id="dataTable">
+                            <thead>
+                                <tr>
+                                    <th>Ref code</th>
+                                    <th>Items</th>
+                                   <th>Montant</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in OrderList %}
+                                <tr>
+                                    <td>{{order.ref_code}}</td>
+                                     <td>
+                                        {% for item in order.items.all %}   
+                                              {{item.item.quantity}} *   {{item.item.name}}
+                                        {% endfor %}   
+                                   </td>
+                                   <td>
+                                  <td>{{order.get_total}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+            
+                        </table>
+                                             
+                                                     
+                                              
+                                           
+                                            </div>
+                                      </div>
+                                      
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                 
+                  </div>
+              </div>
+          </div>
+
+
+                      
+
+                
+
+                    
+                </div>
+
+    {%endblock%}
+   

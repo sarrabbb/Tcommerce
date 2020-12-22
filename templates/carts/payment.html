@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+<style>
+
+
+{% block content %}
+
+  <main>
+    <div class="container wow fadeIn">
+        {% include "carts/order_snippet.html" %}
+
+      <h2 class="my-5 h2 text-center">Payment</h2>
+
+      <div class="row">
+
+        <div class="col-md-12 mb-4">
+          <div class="card">
+           <form action="{% url 'charge' %}" method="post">
+            {% csrf_token %}
+            <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                    data-key="{{ key }}"
+                    data-description="A Django Charge"
+                    data-amount="{{order.get_total}}"
+                    data-locale="auto">
+            </script>
+            </form>
+          </div>
+
+        </div>
+      </div>
+  </main>
+
+{% endblock content %}

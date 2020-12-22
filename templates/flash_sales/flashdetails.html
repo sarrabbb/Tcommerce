@@ -1,0 +1,47 @@
+{% extends "navbar.html" %}
+{% load static %}
+
+<head>
+    <title>Flash Detaile</title>
+  </head>
+
+<body>
+    {%block list%}
+    <main class="page product-page">
+        <section class="clean-block clean-product dark">
+            <div class="container">
+                <div class="block-heading">
+                    <h2 class="text-info">Flash Page</h2>
+                </div>
+                <div class="block-content">
+                    <div class="product-info">
+                        <div class="row">
+                
+                            <div class="col-md-6">
+                                <div class="info">
+                                    <h3 >Product name:</h3> 
+                                    {{Flash.product.name}}
+                                    <h3 >Old price :</h3>
+                                    {{Flash.product.price}}
+                                    <h3 >New price :</h3>
+                                    {{Flash.new_price}}
+                                    <h3 >Startrd at: </h3>
+                                    {{Flash.publish_date}}
+                                    <h3 >Ends at :  </h3>     
+                                    {{Flash.expire_date}}
+
+                                 
+                </div>
+            </div>
+            <br>
+            <div>
+                <a href="{% url 'Flash_sales' %}">Return to list<br></a></li>
+                
+            </div>
+        </section> 
+    </main>
+    <script src="{% static 'assets/js/script.min.js' %}"></script>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+
+{%endblock%}

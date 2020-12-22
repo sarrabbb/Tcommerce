@@ -1,0 +1,211 @@
+{% extends "navbar.html" %}
+{% load static %}
+
+
+
+{%block list%}
+<main class="page catalog-page">
+    <section class="clean-block clean-catalog dark">
+        <div class="container">
+            <div class="block-heading">
+                <h2 class="text-info">Catalog Page</h2>
+                <p>Search for a product.</p>
+                <nav class="navbar navbar-light bg-light">
+                                               
+                    <form class="form-inline" name="myform" method="GET" action="{% url 'search' %}">   
+                        {%csrf_token%}
+                      <input class="form-control mr-sm-2" name="q" type="search" placeholder="Search" aria-label="Search">
+                      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" >Search</button>
+                    </form>
+                </nav>
+            </div>
+            
+            <div class="products">
+                <div class="row no-gutters">  
+                    {%if productsRslt%} 
+                    {%for prod in productsRslt%}
+                                    {% if prod.quantity > 0 %}
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="clean-product-item">
+                            <div class="image"><a href="#"><img class="img-fluid d-block mx-auto"  src="{{prod.image.url}}"></a></div>
+                            <div class="product-name">
+                                <a href="{% url 'productdetails' prod.id %}">{{prod.name}}</a>
+                                <br>
+                                <strong>
+                                    <a href="{% url 'providerProfile' prod.owner %}"> {{prod.owner}}</a>
+                                </strong>
+                            </div>
+                            <div class="about">
+                           
+                                <div class="price">
+                                    <strong>
+                                        {% if prod.discount_price %}
+                                        {{ prod.discount_price }} DT
+                                        <span class="badge badge-pill badge-warning">Price on discount</span>
+                                        {% else %}
+                                        {{ prod.price }} DT
+                                        {% endif %}
+                                    </strong>
+                                </div>
+                                
+                       
+                            </div>
+                            <div>
+                                <a class="add-to-cart" href="{% url 'addCart' prod.id %}">Add to cart</a>
+                                <br>
+                                <a href="{% url 'productdetails' prod.id %}">View Product</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {%endfor%}
+                    {%endif%}
+                </div>
+                    
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="d-none d-md-block">
+                            <div class="filters">
+                                <div class="filter-item">
+                                 
+                                       <h3>Categories</h3>
+                                    <form action="POST" action="{% url 'filter_category' %}">
+                                        {%for category in Categories_list%}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="{{category.id}}">
+                                                <label class="form-check-label" for="">{{category.title}}</label>
+                                            </div>
+                                            {%endfor%}
+                                        <button type="submit"> Filter  </button>
+                                    </form>
+                                   </div>
+                            
+                            </div>
+                        </div>
+                        <div class="d-md-none"><a class="btn btn-link d-md-none filter-collapse" data-toggle="collapse" aria-expanded="false" aria-controls="filters" href="#filters" role="button">Filters<i class="icon-arrow-down filter-caret"></i></a>
+                            
+                        </div>
+                    </div>
+                        <div class="col-md-9">
+                            <div class="products">
+                                <h3>Few Products</h3>
+                                <div class="row no-gutters">   
+                                    {%for prod in products%}
+                                    <div class="col-12 col-md-6 col-lg-4">
+                                        <div class="clean-product-item">
+                                            <div class="image"><a href="#"><img class="img-fluid d-block mx-auto"  src="{{prod.image.url}}"></a></div>
+                                            <div class="product-name">
+                                                <a href="{% url 'productdetails' prod.id %}">{{prod.name}}</a>
+                                                <br>
+                                                <strong>
+                                                    <a href="{% url 'providerProfile' prod.owner.id %}"> {{prod.owner}}</a>
+                                                </strong>
+                                            </div>
+                                            <div class="about">
+                                           
+                                                <div class="price">
+                                                    <strong>
+                                                        {% if prod.discount_price %}
+                                                        {{ prod.discount_price }} DT
+                                                        <span class="badge badge-pill badge-warning">Price on discount</span>
+                                                        {% else %}
+                                                        {{ prod.price }} DT
+                                                        {% endif %}
+                                                    </strong>
+                                                </div>
+                                                
+                                       
+                                            </div>
+                                            <div>
+                                                <a class="add-to-cart" href="{% url 'addCart' prod.id %}">Add to cart</a>
+                                                <br>
+                                                <a href="{% url 'productdetails' prod.id %}">View Product</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    {%endfor%}
+                                     <nav>
+                                    <ul class="pagination">
+                                        {% if items.has_previous %}
+                                         <li class="page-item disabled"><a class="page-link" href="?page=1" aria-label="Previous">
+                                         <span aria-hidden="true">«</span></a></li>
+                                        {% endif %}
+                                        {% for num in items.paginator.page_range %}
+                                            {% if items.number == num %}
+                                             <li class="page-item active"><a class="page-link" href="#">{{ num }}</a></li>
+                                            {% elif num > items.number|add:'-3' and num < items.number|add:'3' %}
+                                             <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if items.has_next %}
+                                            <li class="page-item"><a class="page-link" href="?page={{ items.next_page_number }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                                        {% endif %}
+                                    </ul>
+
+                                </div>
+                                <div class="products">
+                                  <h3>Flash sales</h3>
+
+                                <div class="row no-gutters">   
+
+                                    {%for prod in vents_flash%}
+                                    {% if prod.quantity > 0 %}
+
+
+                                    <div class="col-12 col-md-6 col-lg-4">
+                                        <div class="clean-product-item">
+                                            <div class="image"><a href="#"><img class="img-fluid d-block mx-auto"  src="{{prod.product.image.url}}"></a></div>
+                                            <div class="product-name">
+                                                <a href="{% url 'productdetails' prod.id %}">{{prod.product.name}}</a>
+                                                <br>
+                                               
+                                            </div>
+                                            <div class="about">
+                                           
+                                                <div class="price">
+                                                    <strong>
+                                                       
+                                                        {{ prod.product.price }} DT
+                                                    </strong>
+                                                </div>
+                                                
+                                       
+                                            </div>
+                                            <div>
+                                                <a class="add-to-cart" href="{% url 'addCart' prod.id %}">Add to cart</a>
+                                                <br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    {%endfor%}
+                                     <nav>
+                                    <ul class="pagination">
+                                        {% if items.has_previous %}
+                                         <li class="page-item disabled"><a class="page-link" href="?page=1" aria-label="Previous">
+                                         <span aria-hidden="true">«</span></a></li>
+                                        {% endif %}
+                                        {% for num in items.paginator.page_range %}
+                                            {% if items.number == num %}
+                                             <li class="page-item active"><a class="page-link" href="#">{{ num }}</a></li>
+                                            {% elif num > items.number|add:'-3' and num < items.number|add:'3' %}
+                                             <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if items.has_next %}
+                                            <li class="page-item"><a class="page-link" href="?page={{ items.next_page_number }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                                        {% endif %}
+                                    </ul>
+
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+      {%endblock%}

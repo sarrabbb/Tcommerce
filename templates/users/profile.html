@@ -1,0 +1,148 @@
+{% extends "navbar.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+    <div class="content-section">
+      <div class="media">
+        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+        <div class="media-body">
+          <h2 class="account-heading">{{ user.username }}</h2>
+          <p class="text-secondary">{{ user.email }}</p>
+        </div>
+      </div>
+      
+        <form method="POST" enctype = "multipart/form-data">
+          {% csrf_token %}
+          <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Profile Info</legend>
+            {{ u_form|crispy }}
+            {{ p_form|crispy }}
+        </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Update</button>
+            </div>
+        </form>
+    </div>
+
+    <body id="page-top">
+      {%block list%}
+      <div id="wrapper">
+    
+          <div class="d-flex justify-content-center" id="content-wrapper">
+              <div id="content">
+                  <div class="container-fluid">
+                      <div class="row mb-3">
+                          <div class="col-lg-4">
+                             
+                          </div>
+                         
+                              <div class="row">
+                                  <div class="col">
+                                      <div class="card shadow mb-3">
+                                          <div class="card-header py-3">
+                                              <p class="text-primary m-0 font-weight-bold">User Settings</p>
+                                          </div>
+                                          <div class="card-body">
+                                            <div class="card-body text-center shadow"><img class="rounded-circle mb-3 mt-4" src="{{ user.profile.image.url }}" width="160" height="160"> 
+
+                                              <form method="POST" enctype = "multipart/form-data" >
+                                                {% csrf_token %}
+                                                  <div class="form-row">
+                                                      <div class="card-body text-center shadow">
+                                                          {{ u_form|crispy }}
+                                                          {{ p_form|crispy }}
+                                                          <div class="form-group"><button class="btn btn-primary btn-sm" type="submit">Save Settings</button></div>
+                                                          <a type="button" class="btn btn-danger" href="{% url 'delete_account'  %}"> Delete your account</a>
+                                                  </div>
+                                              </form>
+                                            </div>
+                                      </div>
+                                      
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                 
+                  </div>
+              </div>
+          </div>
+
+             <div class="align-self-stretch" id="content-wrapper">
+              <div id="content">
+                  <div class="container-fluid">
+                      <div class="row mb-3">
+                          <div class="col-lg-4">
+                             
+                          </div>
+                         
+                              <div class="row">
+                                  <div class="col">
+                                    {% if user.is_provider%}
+                        <div></div>
+                        {% else %}
+                                      <div class="card shadow mb-3">
+                                          <div class="card-header py-3">
+                                              <p class="text-primary m-0 font-weight-bold">Payment Histroy</p>
+                                          </div>
+                                          <div>
+
+                                          </div>
+                                        
+                                          
+                                          <div class="card-body">
+                                          <div>  
+                                              <a href="{%url 'request-refund' %}"> Refund an item </a> <br>
+                                          					                <a  href="{% url 'Pdf' %}">Download order history </a>
+
+                                            </div>
+                                          <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                     
+                      
+                        <table class="table dataTable my-0" id="dataTable">
+                            <thead>
+                                <tr>
+                                    <th>Ref code</th>
+                                    <th>Items</th>
+                                    {% comment %} <th>View PDF version</th>
+                                    <th>Dowmload PDF version</th>
+                                  {% endcomment %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in OrderList %}
+                                <tr>
+                                    <td>{{order.ref_code}}</td>
+                                     <td>
+                                        {% for item in order.items.all %}   
+                                              {{item.item.quantity}} *   {{item.item.name}}
+                                        {% endfor %}   
+                                   </td>
+                                    {% comment %} <td>
+                                <a class="btn btn-info" href="{% url 'pdf_view' %}" target="_blank">View </a>
+{% endcomment %}
+                                    </td>
+                                    <td>
+                                   </td> 
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+            
+                        </table>
+                        {%endif%}          
+                                              
+                                           
+                                            </div>
+                                      </div>
+                                      
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                 
+                  </div>
+              </div>
+          </div>
+          <div class='d-flex justify-content-center'>
+          </div>
+    {%endblock%}
+   
