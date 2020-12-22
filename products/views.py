@@ -187,7 +187,7 @@ def addproduct(request):
             product.quantity = form.cleaned_data.get("quantity")
             productimage = form.cleaned_data.get("image")
             product.save()
-            return redirect("provider")
+            return redirect("productlistProvider")
         else:
             print(form.errors)
         return redirect("addproduct")

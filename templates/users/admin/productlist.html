@@ -31,7 +31,6 @@
                         </thead>
                         <tbody>
                             {% for product in object_list %}
-                            {% if product.quantity>0 %}
                             <tr>
                                 <td>{{ product.name }}</td>
                                 <td>{{ product.owner }}</td>
@@ -44,7 +43,6 @@
                               </td>
 
                             </tr>
-                            {% endif %}
                             {% endfor %}
                         </tbody>
                       

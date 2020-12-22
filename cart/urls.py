@@ -24,6 +24,7 @@ urlpatterns = [
     path('checkout/', CheckoutView.as_view(), name='checkout'),
     path('payment/<payment_option>/', PaymentView.as_view(), name='payment'),
     path('chargeCache/', views.chargeCache, name='chargeCache'), 
+    path('charge/', views.charge, name='charge'), 
 
     # Coupon
     path('addCoupon/', AddCouponView.as_view(), name='addCoupon'),

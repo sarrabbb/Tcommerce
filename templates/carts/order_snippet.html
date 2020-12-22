@@ -19,15 +19,15 @@
         <h6 class="my-0">Promo code</h6>
         <small>{{ order.coupon.code }}</small>
         </div>
-        <span class="text-success">-${{ order.coupon.amount }}</span>
+        <span class="text-success">-{{ order.coupon.amount }}DT</span>
     </li>
     {% endif %}
     <li class="list-group-item d-flex justify-content-between">
-        <span>Total (USD)</span>
+        <span>Total (Dinar)</span>
         {%if order.get_total <= 0 %}
-            <strong>$ 0 </strong>
+            <strong> 0 DT</strong>
         {% else %}
-            <strong>${{ order.get_total }}</strong>
+        <strong>{{ order.get_total }}DT</strong>
         {% endif %}
     </li>
     </ul>
